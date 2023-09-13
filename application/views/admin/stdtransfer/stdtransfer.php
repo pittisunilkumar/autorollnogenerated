@@ -371,7 +371,6 @@
 
             $.ajax({
                 type: "POST",
-
                 url: '<?php echo site_url("admin/stdtransfer/promote") ?>',
                 data: datastring,
                 dataType:"JSON",

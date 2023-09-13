@@ -87,6 +87,7 @@ class Stdtransfer extends Admin_Controller
                         $promoted_class   = $this->input->post('class_promote_id');
                         $promoted_section = $this->input->post('section_promote_id');
                         $promoted_session = $this->input->post('session_id');
+
                         $data_new         = array(
                             'student_id'     => $student_id,
                             'class_id'       => $promoted_class,
@@ -95,11 +96,22 @@ class Stdtransfer extends Admin_Controller
                             'transport_fees' => 0,
                             'fees_discount'  => 0,
                         );
+
+                        $last_student = $this->student_model->promotelastrollRecord($promoted_class,$promoted_section,$promoted_session);
+                        if (!empty($last_student)) {
+                            $last_roll_no_digit = str_replace($this->sch_setting_detail->sroll_prefix, "", $last_student->roll_no);
+                            $sroll_no                = $this->sch_setting_detail->sroll_prefix . sprintf("%0" . $this->sch_setting_detail->sroll_no_digit . "d", $last_roll_no_digit + 1);
+                            $data_insert = array();
+                            $data_insert['roll_no']  = $sroll_no;
+                            $this->student_model->studentrollnoupdate($student_id,$data_insert);
+                        }
+
                         $this->student_model->add_student_session($data_new);
                     } elseif ($result == "fail" && $session_status == "countinue") {
                         $promoted_session = $this->input->post('session_id');
                         $class_post       = $this->input->post('class_post');
                         $section_post     = $this->input->post('section_post');
+
                         $data_new         = array(
                             'student_id'     => $student_id,
                             'class_id'       => $class_post,
@@ -108,6 +120,7 @@ class Stdtransfer extends Admin_Controller
                             'transport_fees' => 0,
                             'fees_discount'  => 0,
                         );
+
                         $this->student_model->add_student_session($data_new);
                     } elseif ($session_status == "leave") {
 
@@ -125,8 +138,9 @@ class Stdtransfer extends Admin_Controller
                             'student_id' => $student_id,
                             'is_alumni'  => 1,
                         );
-
+                        
                         $this->student_model->alumni_student_status($alumni_data);
+
                     }
                 }
 

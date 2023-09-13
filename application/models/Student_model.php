@@ -1103,6 +1103,7 @@ class Student_model extends MY_Model
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
         $q = $this->db->get('student_session');
+
         if ($q->num_rows() > 0) {
             $rec = $q->row_array();
             $this->db->where('id', $rec['id']);
@@ -1131,6 +1132,7 @@ class Student_model extends MY_Model
         } else {
             return $record_id;
         }
+
     }
 
     public function get_student_vehicle_months($student_session_id)
@@ -2255,7 +2257,7 @@ class Student_model extends MY_Model
 
 
 
-
+// i am changing
 
     public function check_sroll_exists($roll_no,$class_id,$section_id){
         $this->db->where(array('class_id' => $class_id, 'roll_no' => $roll_no,'section_id'=>$section_id,'session_id' => $this->current_session));
@@ -2291,6 +2293,25 @@ class Student_model extends MY_Model
         return $last_row;
     }
 
+    public function promotelastrollRecord($class_id, $section_id,$session_id)
+    {
+        $this->db->where(array('class_id' => $class_id, 'section_id' => $section_id, 'session_id' => $session_id));
+        $this->db->join("student_session", "students.id = student_session.student_id");
+
+        // Use a custom sorting function to order roll numbers correctly
+        $this->db->order_by('CAST(students.roll_no AS UNSIGNED)', 'desc');
+        $this->db->order_by('students.roll_no', 'desc');
+
+        $last_row = $this->db->select('*')->limit(1)->get('students')->row();
+        return $last_row;
+    }
+
+    
+
+    public function studentrollnoupdate($id, $data)
+    {
+        $this->db->where("id", $id)->update("students", $data);
+    }
 
 
 

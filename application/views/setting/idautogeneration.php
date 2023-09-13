@@ -136,12 +136,12 @@
                                         <div class="form-group row">
                                             <label class="col-sm-3"><?php echo $this->lang->line('roll_no_digit'); ?><small class="req"> *</small></label>
                                             <div class="col-sm-9">
-                                                <select  id="adm_no_digit" name="sroll_no_digit" class="form-control" >
+                                                <select  id="sroll_no_digit" name="sroll_no_digit" class="form-control" >
                                                     <option value=""><?php echo $this->lang->line('select'); ?></option>
                                                     <?php foreach ($digitList as $digit) {
                                                         ?>
                                                         <option value="<?php echo $digit ?>" <?php
-                                                        if ($result->adm_no_digit == $digit) {
+                                                        if ($result->sroll_no_digit == $digit) {
                                                             echo "selected";
                                                         }
                                                         ?> ><?php echo $digit; ?></option> <?php } ?>

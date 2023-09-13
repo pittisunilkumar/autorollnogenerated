@@ -47,6 +47,8 @@ echo $this->session->flashdata('msg');
                                                 </div>
                                             </div>
                                         <?php }?>
+
+
                                         <?php if ($sch_setting->roll_no) {?>
                                             
                                             <?php if(!$sroll_auto_insert){?>
@@ -60,6 +62,8 @@ echo $this->session->flashdata('msg');
                                             <?php }?>
                                             
                                         <?php }?>
+
+
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1"><?php echo $this->lang->line('class'); ?></label><small class="req"> *</small>
